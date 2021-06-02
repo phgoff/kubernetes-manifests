@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox
+  labels:
+    app: busybox
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: busybox
+  template:
+    metadata:
+      labels:
+        app: busybox
+    spec:
+      containers:
+      - name: busybox
+        image: busybox
+        command:
+        - sleep
+        - "3600"
+        volumeMounts:
+        - mountPath: /home/file1.txt # container's path
+          subPath: file1.txt
+          name: config
+
+      volumes:
+      - name: config
+        configMap:
+            name: config
+
